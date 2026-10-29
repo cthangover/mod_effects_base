@@ -3,7 +3,7 @@
   "name": "Effects Engine",
   "version": "1.0.0",
   "author": "ct",
-  "description": "Engine effects subsystem: PackedScene visual effect factory (folder mods only) and the frame/animated effect controllers. Replaces the former Core/UI/Animation implementations and Core/Factories/Impls/EffectFactory.",
+  "description": "Short visual effects for scenes — a flash, smoke, sparks, a magic glow: a mod ships small Godot scenes in effects/, a scenario plays one by name.",
   "category": "engine, library",
   "sources": [
     "src/**/*.cs"
