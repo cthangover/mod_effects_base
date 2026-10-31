@@ -2,7 +2,7 @@
 
 Effects Engine permite que un escenario reproduzca sobre la escena un efecto visual breve: un destello, humo, chispas, un resplandor mágico. Un efecto es una pequeña escena de Godot que el mod lleva en su carpeta `effects/`; el escenario lo lanza por su nombre, y permanece en pantalla hasta que termina solo o se acaba el diálogo.
 
-Es un mod de motor sin nada propio que ver. Los juegos incluidos por ahora no traen ninguna escena de efecto, así que no te toparás con uno mientras juegas; este mod está aquí para los autores que quieran añadir uno.
+El motor también admite ambiente continuo: hojas, luciérnagas, nieve, polvo y lluvia. Village Pack aporta los perfiles de RPG Plus; otros mods pueden añadir perfiles y tipos de emisores. El anfitrión funciona fuera de mapas con otra proyección.
 
 ## Cómo aparece un efecto
 
@@ -53,3 +53,8 @@ El efecto más sencillo es una escena cuya raíz es un `TextureRect` con una ima
 1. **No aparece nada y el registro dice que el efecto no se encontró.** El archivo debe estar como `effects/<nombre>.tscn` en un mod que forme parte del juego, y el nombre del escenario debe coincidir.
 2. **El efecto funciona en desarrollo pero no para los jugadores.** El mod se publicó como `.zip`; publícalo como carpeta.
 3. **El efecto nunca se va.** Permanece hasta que termina su diálogo; cierra el diálogo, o monta el efecto con las piezas de conjunto de fotogramas o de hoja de sprites, que se retiran solas al acabar.
+
+## Perfiles de ambiente continuo
+
+El motor también admite ambiente continuo: hojas, luciérnagas, nieve, polvo y lluvia. Village Pack aporta los perfiles de RPG Plus; otros mods pueden añadir perfiles y tipos de emisores. El anfitrión funciona fuera de mapas con otra proyección.
+

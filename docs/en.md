@@ -2,7 +2,7 @@
 
 Effects Engine lets a scenario play a short visual effect over a scene: a flash, smoke, sparks, a magic glow. An effect is a small Godot scene that a mod ships in its `effects/` folder; a scenario starts it by name, and it stays on screen until it finishes by itself or the dialog ends.
 
-It is an engine mod with nothing to see on its own. The games currently included do not ship any effect scenes yet, so you will not meet an effect while playing them; this mod is there for authors who want to add one.
+The engine also hosts continuous atmosphere profiles: leaves, fireflies, snow, dust and rain. Village Pack supplies the profiles used by RPG Plus; other mods can add profiles and emitter types. The same host works outside tile maps when given another coordinate projection.
 
 ## How an effect appears
 
@@ -53,3 +53,47 @@ The simplest effect is a scene whose root is a `TextureRect` with a picture, str
 1. **Nothing appears and the log says the effect was not found.** The file must be `effects/<name>.tscn` in a mod that is part of the game, and the name in the scenario must match.
 2. **The effect works in development but not for players.** The mod was published as a `.zip`; publish it as a folder.
 3. **The effect never goes away.** It stays until its dialog ends; end the dialog, or build the effect from the frame-set or sprite-sheet blocks, which remove themselves when they finish.
+
+## Continuous atmosphere profiles
+
+The engine also hosts continuous atmosphere profiles: leaves, fireflies, snow, dust and rain. Village Pack supplies the profiles used by RPG Plus; other mods can add profiles and emitter types. The same host works outside tile maps when given another coordinate projection.
+
+```json
+{
+  "Kind": "atmosphere",
+  "Items": [{
+    "Id": "my_mod/ash",
+    "Name": "my_mod/ash/name",
+    "Emitters": [{
+      "Type": "particles", "Shape": "flake", "Count": 80,
+      "Color": "#a0a0a070", "Velocity": [0.1, 0.02, -0.4],
+      "Height": [0.1, 5], "Size": [0.5, 1.2], "Sway": 0.2, "Seed": 17
+    }]
+  }]
+}
+```
+
+Set a map's `Atmosphere` to the entity Id; the map editor lists all loaded profiles. `particles` supports
+`flake`, `leaf`, `glow`, `dust` and `streak`; `ripples` draws projected rings in the host's named `Region`.
+The tile host supplies `water`. Missing regions draw nothing. The Data Editor exposes the emitter JSON.
+
+Velocity uses XYZ world units per second, with positive Z up. Height is a world-unit range; Size is a pixel-radius
+range. `Pulse` controls periodic fading, `Trail` the streak duration. Counts are limited to 512 per emitter and
+2048 per profile. Cosmetic phases are independent of gameplay random numbers.
+
+For a new emitter type, depend on `effects_base>=1` and implement `IAtmosphereEmitterFactory` from
+`Cthangover.Mods.Effects.Atmosphere`. `Id` becomes JSON `Type`; `Create` receives `AtmosphereEmitterInfo` plus
+custom JSON in `ExtraFields` and returns `IAtmosphereEmitter`:
+
+- `Advance(delta, context)` updates state once per host frame.
+- `Draw(canvas, context)` draws without advancing state. Use `context.Project`, `Bounds` and optional `Regions`.
+- `Dispose()` releases owned assets; resolver textures remain borrowed.
+
+The mod pipeline discovers factories and removes them on unload. Duplicate type names, unknown types and invalid
+ranges produce diagnostics. Hosts own emitter instances; scene exit, renderer replacement and profile changes
+release them. Unchanged geometry edits retain animation state. The winter suite verifies a factory from another
+mod assembly, custom fields, update/draw calls and exactly-once disposal.
+
+For a non-tile scene, add an `AtmosphereView`, call `Configure(profileId, context)` with bounds and a
+`Func<Vector3, Vector2>` projection, and call `Advance(delta)` every frame. `Release()` clears delegates and
+owned emitter state before manual freeing; exiting the tree releases it too. There is no RPG dependency.

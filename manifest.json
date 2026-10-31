@@ -3,11 +3,14 @@
   "name": "Effects Engine",
   "version": "1.0.0",
   "author": "ct",
-  "description": "Short visual effects for scenes — a flash, smoke, sparks, a magic glow: a mod ships small Godot scenes in effects/, a scenario plays one by name.",
+  "description": "Scene effects and continuous atmosphere: editable particle profiles and extensible emitters for leaves, fireflies, snow, rain and dust.",
   "category": "engine, library",
   "sources": [
     "src/**/*.cs"
   ],
   "depends": [],
-  "ui": []
+  "ui": [],
+  "test_sources": [
+    "tests/*.cs"
+  ]
 }

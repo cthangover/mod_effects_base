@@ -1,0 +1,15 @@
+{
+  "Kinds": [
+    {
+      "Kind": "atmosphere",
+      "Fields": [
+        {
+          "Key": "Emitters",
+          "Type": "json",
+          "Name": "effects/atmosphere/emitters",
+          "Description": "effects/atmosphere/emitters_desc"
+        }
+      ]
+    }
+  ]
+}

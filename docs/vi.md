@@ -2,7 +2,7 @@
 
 Effects Engine cho phép kịch bản phát một hiệu ứng hình ảnh ngắn đè lên cảnh: một tia chớp, khói, tia lửa, quầng sáng ma thuật. Một hiệu ứng là một cảnh Godot nhỏ mà mod đóng gói trong thư mục `effects/` của mình; kịch bản gọi nó theo tên, và nó giữ nguyên trên màn hình cho tới khi tự kết thúc hoặc hộp thoại kết thúc.
 
-Đây là mod engine, tự nó chẳng có gì để xem. Các game hiện được kèm theo chưa đóng gói cảnh hiệu ứng nào, nên khi chơi bạn sẽ không gặp hiệu ứng; mod này dành cho những tác giả muốn thêm một hiệu ứng.
+Động cơ còn hỗ trợ môi trường liên tục: lá, đom đóm, tuyết, bụi và mưa. Village Pack cung cấp hồ sơ RPG Plus; mod khác thêm hồ sơ và loại bộ phát. Với phép chiếu tọa độ khác, bộ chủ dùng được ngoài bản đồ ô.
 
 ## Hiệu ứng xuất hiện thế nào
 
@@ -53,3 +53,8 @@ Hiệu ứng đơn giản nhất là một cảnh có gốc là `TextureRect` ch
 1. **Không có gì hiện lên và nhật ký bảo không tìm thấy hiệu ứng.** Tệp phải nằm ở `effects/<tên>.tscn` trong một mod thuộc game, và tên trong kịch bản phải khớp.
 2. **Hiệu ứng chạy lúc phát triển nhưng không chạy với người chơi.** Mod được phát hành dưới dạng `.zip`; hãy phát hành dưới dạng thư mục.
 3. **Hiệu ứng không chịu biến mất.** Nó ở lại cho tới khi hộp thoại của nó kết thúc; hãy kết thúc hộp thoại, hoặc dựng hiệu ứng từ các viên gạch bộ khung hình hay bảng sprite — chúng tự dỡ khi phát xong.
+
+## Hồ sơ môi trường liên tục
+
+Động cơ còn hỗ trợ môi trường liên tục: lá, đom đóm, tuyết, bụi và mưa. Village Pack cung cấp hồ sơ RPG Plus; mod khác thêm hồ sơ và loại bộ phát. Với phép chiếu tọa độ khác, bộ chủ dùng được ngoài bản đồ ô.
+
