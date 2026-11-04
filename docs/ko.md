@@ -58,3 +58,24 @@ Effects Engine은 효과 장면 안에서 프레임을 애니메이션하는 방
 
 낙엽, 반딧불, 눈, 먼지, 비 같은 지속 환경 효과도 지원합니다. RPG Plus 프로필은 Village Pack에 있으며 다른 모드가 프로필과 방출기 유형을 추가할 수 있습니다. 좌표 투영을 제공하면 타일 맵 밖에서도 작동합니다.
 
+```json
+{
+  "Kind": "atmosphere",
+  "Items": [{
+    "Id": "my_mod/ash",
+    "Emitters": [{
+      "Type": "particles", "Shape": "flake", "Count": 80,
+      "Color": "#a0a0a070", "Velocity": [0.1, 0.02, -0.4],
+      "Height": [0.1, 5], "Size": [0.5, 1.2], "Sway": 0.2, "Seed": 17
+    }]
+  }]
+}
+```
+
+프로필은 `atmosphere` 엔티티이며 맵 `Atmosphere`에 ID를 지정합니다. `particles`는 `flake`, `leaf`, `glow`, `dust`, `streak`를 지원합니다. `ripples`는 호스트의 `Region`(RPG는 `water` 제공)에 고리를 그립니다. 영역이 없으면 그리지 않습니다.
+
+`Velocity`는 초당 월드 단위 XYZ이며 Z 양수가 위입니다. `Height`는 높이 범위, `Size`는 픽셀 반지름입니다. `Pulse`는 주기적 페이드, `Trail`은 잔상입니다. 이미터당 최대 512, 프로필당 2048입니다.
+
+새 유형은 `Cthangover.Mods.Effects.Atmosphere`의 `IAtmosphereEmitterFactory`를 구현합니다. `Id`는 `Type`이 되고 `Create`는 `ExtraFields`를 가진 `AtmosphereEmitterInfo`를 받습니다. 이미터는 `Advance(delta, context)`, `Draw(canvas, context)`, `Dispose()`를 구현하고 `context.Project`, `Bounds`, `Regions`를 씁니다. 모드 로드·해제에 맞춰 등록하며 호스트가 인스턴스를 해제합니다.
+
+맵 밖에서는 `AtmosphereView`의 `Configure(profileId, context)`, 프레임마다 `Advance(delta)`, 수동 해제 전 `Release()`를 호출합니다. RPG 의존성은 없습니다.

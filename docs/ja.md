@@ -58,3 +58,24 @@ Effects Engine は、エフェクトシーンの中でフレームをアニメ�
 
 継続的な環境効果として落ち葉、蛍、雪、砂塵、雨も扱います。RPG Plus のプロファイルは Village Pack にあり、他の MOD はプロファイルやエミッターの種類を追加できます。座標投影を渡せばタイル以外の場面でも使えます。
 
+```json
+{
+  "Kind": "atmosphere",
+  "Items": [{
+    "Id": "my_mod/ash",
+    "Emitters": [{
+      "Type": "particles", "Shape": "flake", "Count": 80,
+      "Color": "#a0a0a070", "Velocity": [0.1, 0.02, -0.4],
+      "Height": [0.1, 5], "Size": [0.5, 1.2], "Sway": 0.2, "Seed": 17
+    }]
+  }]
+}
+```
+
+プロファイルは `atmosphere` エンティティです。マップの `Atmosphere` で ID を指定します。`particles` は `flake`、`leaf`、`glow`、`dust`、`streak` に対応し、`ripples` はホストの `Region`（RPG は `water` を提供）に輪を描きます。領域がなければ描画しません。
+
+`Velocity` は毎秒の XYZ ワールド単位で Z 正が上、`Height` は高さの範囲、`Size` はピクセル半径です。`Pulse` は周期的なフェード、`Trail` は軌跡です。上限はエミッタごとに 512、プロファイルごとに 2048 です。
+
+独自の種類は `Cthangover.Mods.Effects.Atmosphere` の `IAtmosphereEmitterFactory` を実装します。`Id` が `Type`、`Create` は `ExtraFields` を持つ `AtmosphereEmitterInfo` を受け取ります。エミッタは `Advance(delta, context)`、`Draw(canvas, context)`、`Dispose()` を実装し、`context.Project`、`Bounds`、`Regions` を使います。登録は MOD の読み込み・解放に追従し、ホストがインスタンスを解放します。
+
+マップ以外では `AtmosphereView` を使い、`Configure(profileId, context)`、毎フレームの `Advance(delta)`、手動解放前の `Release()` を呼びます。RPG 依存はありません。

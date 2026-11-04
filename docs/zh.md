@@ -58,3 +58,24 @@ Effects Engine 提供三种在特效场景内部动画帧的方式：
 
 引擎也支持持续环境效果：落叶、萤火虫、雪、尘埃和雨。Village Pack 提供 RPG Plus 的配置；其他模组可添加配置及发射器类型。提供坐标投影后，宿主也能用于非图块场景。
 
+```json
+{
+  "Kind": "atmosphere",
+  "Items": [{
+    "Id": "my_mod/ash",
+    "Emitters": [{
+      "Type": "particles", "Shape": "flake", "Count": 80,
+      "Color": "#a0a0a070", "Velocity": [0.1, 0.02, -0.4],
+      "Height": [0.1, 5], "Size": [0.5, 1.2], "Sway": 0.2, "Seed": 17
+    }]
+  }]
+}
+```
+
+配置为 `atmosphere` 实体，在地图 `Atmosphere` 中选择 ID。`particles` 支持 `flake`、`leaf`、`glow`、`dust`、`streak`；`ripples` 在宿主的 `Region` 中绘制圆环（RPG 提供 `water`），缺少区域时不绘制。
+
+`Velocity` 为每秒世界单位 XYZ，Z 正向朝上；`Height` 为世界高度范围，`Size` 为像素半径范围。`Pulse` 控制周期淡出，`Trail` 控制拖尾。每发射器最多 512，每配置最多 2048。
+
+新增类型实现 `Cthangover.Mods.Effects.Atmosphere` 的 `IAtmosphereEmitterFactory`。`Id` 对应 `Type`，`Create` 接收含 `ExtraFields` 的 `AtmosphereEmitterInfo`。发射器实现 `Advance(delta, context)`、`Draw(canvas, context)`、`Dispose()`，使用 `context.Project`、`Bounds`、`Regions`。注册随模组加载与卸载；宿主释放发射器。
+
+非地图场景使用 `AtmosphereView`：调用 `Configure(profileId, context)`，每帧 `Advance(delta)`，手动释放前调用 `Release()`。无需 RPG。

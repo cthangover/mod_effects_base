@@ -58,3 +58,24 @@ Hiệu ứng đơn giản nhất là một cảnh có gốc là `TextureRect` ch
 
 Động cơ còn hỗ trợ môi trường liên tục: lá, đom đóm, tuyết, bụi và mưa. Village Pack cung cấp hồ sơ RPG Plus; mod khác thêm hồ sơ và loại bộ phát. Với phép chiếu tọa độ khác, bộ chủ dùng được ngoài bản đồ ô.
 
+```json
+{
+  "Kind": "atmosphere",
+  "Items": [{
+    "Id": "my_mod/ash",
+    "Emitters": [{
+      "Type": "particles", "Shape": "flake", "Count": 80,
+      "Color": "#a0a0a070", "Velocity": [0.1, 0.02, -0.4],
+      "Height": [0.1, 5], "Size": [0.5, 1.2], "Sway": 0.2, "Seed": 17
+    }]
+  }]
+}
+```
+
+Hồ sơ là thực thể `atmosphere`; chọn ID ở `Atmosphere` của bản đồ. `particles` hỗ trợ `flake`, `leaf`, `glow`, `dust`, `streak`; `ripples` vẽ vòng ở `Region` do host cung cấp (RPG có `water`). Không có vùng thì không vẽ vòng.
+
+`Velocity` dùng XYZ theo đơn vị thế giới mỗi giây, Z dương hướng lên; `Height` là khoảng độ cao, `Size` là bán kính pixel. `Pulse` điều khiển mờ theo chu kỳ, `Trail` là vệt. Giới hạn 512 mỗi bộ phát, 2048 mỗi hồ sơ.
+
+Muốn thêm loại, triển khai `IAtmosphereEmitterFactory` trong `Cthangover.Mods.Effects.Atmosphere`. `Id` ứng với `Type`; `Create` nhận `AtmosphereEmitterInfo` có `ExtraFields`. Bộ phát có `Advance(delta, context)`, `Draw(canvas, context)`, `Dispose()`, dùng `context.Project`, `Bounds`, `Regions`. Đăng ký theo nạp/gỡ mod; host giải phóng bộ phát.
+
+Ngoài bản đồ dùng `AtmosphereView`: `Configure(profileId, context)`, `Advance(delta)` mỗi khung và `Release()` trước khi giải phóng thủ công. Không phụ thuộc RPG.
