@@ -1,7 +1,7 @@
 {
   "id": "effects_base",
   "name": "Effects Engine",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "author": "ct",
   "description": "Scene effects and continuous atmosphere: editable particle profiles and extensible emitters for leaves, fireflies, snow, rain and dust.",
   "category": "engine, library",

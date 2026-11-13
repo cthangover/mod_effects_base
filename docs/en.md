@@ -81,7 +81,7 @@ Velocity uses XYZ world units per second, with positive Z up. Height is a world-
 range. `Pulse` controls periodic fading, `Trail` the streak duration. Counts are limited to 512 per emitter and
 2048 per profile. Cosmetic phases are independent of gameplay random numbers.
 
-For a new emitter type, depend on `effects_base>=1` and implement `IAtmosphereEmitterFactory` from
+For a new emitter type, depend on `effects_base>=0.1.0` and implement `IAtmosphereEmitterFactory` from
 `Cthangover.Mods.Effects.Atmosphere`. `Id` becomes JSON `Type`; `Create` receives `AtmosphereEmitterInfo` plus
 custom JSON in `ExtraFields` and returns `IAtmosphereEmitter`:
 

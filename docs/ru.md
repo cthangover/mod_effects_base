@@ -81,7 +81,7 @@ Effects Engine даёт три способа анимировать кадры 
 в пикселях. `Pulse` задаёт мерцание, `Trail` — длительность следа. Лимиты: 512 частиц на источник, 2048 на профиль.
 Косметические фазы не расходуют игровой генератор случайных чисел.
 
-Для нового типа добавьте зависимость `effects_base>=1` и реализацию `IAtmosphereEmitterFactory` из
+Для нового типа добавьте зависимость `effects_base>=0.1.0` и реализацию `IAtmosphereEmitterFactory` из
 `Cthangover.Mods.Effects.Atmosphere`. Её `Id` становится `Type` в JSON. Метод `Create` получает настройки и
 пользовательские поля `ExtraFields`, возвращая `IAtmosphereEmitter` с методами `Advance`, `Draw`, `Dispose`.
 `Advance` обновляет состояние один раз за кадр; `Draw` использует `context.Project`, `Bounds` и `Regions`, не
