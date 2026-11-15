@@ -8,9 +8,10 @@ namespace Cthangover.Mods.Effects.Atmosphere
     {
         private static readonly Dictionary<string, AtmosphereProfile> previews = new(StringComparer.Ordinal);
         public static event Action Changed;
-        public static Dictionary<string, AtmosphereProfile> Collect()
+        /// <summary>Resolved profiles plus unsaved previews; tools may allow an empty catalogue without hiding invalid definitions.</summary>
+        public static Dictionary<string, AtmosphereProfile> Collect(bool required = true)
         {
-            var result = new Dictionary<string, AtmosphereProfile>(Entities.Collect<AtmosphereProfile>(), StringComparer.Ordinal);
+            var result = new Dictionary<string, AtmosphereProfile>(Entities.Collect<AtmosphereProfile>(required), StringComparer.Ordinal);
             foreach (var pair in previews) result[pair.Key] = pair.Value;
             return result;
         }
